@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CVPR2020 | Portfolio</title>
+    <link>https://github.com/kionawalker/kionawalker.github.io/portfolio/tag/cvpr2020/</link>
+      <atom:link href="https://github.com/kionawalker/kionawalker.github.io/portfolio/tag/cvpr2020/index.xml" rel="self" type="application/rss+xml" />
+    <description>CVPR2020</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright><lastBuildDate>Fri, 08 May 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://github.com/kionawalker/kionawalker.github.io/portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>CVPR2020</title>
+      <link>https://github.com/kionawalker/kionawalker.github.io/portfolio/tag/cvpr2020/</link>
+    </image>
+    
+    <item>
+      <title>Real-world Person Re-Identification via Degradation Invariance Learning</title>
+      <link>https://github.com/kionawalker/kionawalker.github.io/portfolio/post/ddgan/</link>
+      <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
+      <guid>https://github.com/kionawalker/kionawalker.github.io/portfolio/post/ddgan/</guid>
+      <description>&lt;h2 id=&#34;どんなもの&#34;&gt;&lt;strong&gt;どんなもの？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Person Re-IDのような人物照合タスクは照合データ間で照明，解像度，歩行方向，天候などの変化が生じる場合が多く，これらは認識精度の低下を招く．そこで，そのような変化の影響を受けないような人物特徴(Content特徴)と照合データ間の変動特徴(Degradation特徴)をDisentanglementするようにGANのEncoderを学習する(DDGAN)．次に学習した2つのEncoderとAttention機構を用いて特徴抽出器(DFEN)を学習することで，3つのデータ・セットを用いたCross-resolutionのPerson Re-IDでSoTAを達成．&lt;/p&gt;
+&lt;h2 id=&#34;先行研究と比べてどこがすごい&#34;&gt;&lt;strong&gt;先行研究と比べてどこがすごい？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Person Re-IDにDisentangle learningを応用し，認識に必要な人物特徴と悪影響を与える特徴を分離することを可能にしており汎用性が高い．&lt;/p&gt;
+&lt;h2 id=&#34;技術や手法のキモはどこ&#34;&gt;&lt;strong&gt;技術や手法のキモはどこ？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;DDGAN.png&#34; alt=&#34;DDGAN&#34;&gt;
+入力として，通常画像Xi，通常画像を人工的に劣化させた劣化画像Xj，Xiとは別の人物の通常画像Xkを用いて，人物特徴(コンテンツ特徴)をエンコードするEc，劣化特徴を学習するEdとEd&amp;rsquo;をGANによる画像生成タスクで学習させる(パラメータは共有)．その際，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Xiのコンテンツ特徴 ⇔ Xjのコンテンツ特徴&lt;/li&gt;
+&lt;li&gt;Xiの劣化特徴 ⇔ Xkの劣化特徴&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;をスワップすることで，各エンコーダーが入力の変化の影響を受けない特徴を獲得する(Disentangle)するように制約をかけている．更にDDGANで画像を生成する際，抽出した特徴の組み合わせを変えて画像を生成し，それらを比較する9つの損失関数を導入することで，コンテンツ特徴と劣化特徴の抽出を高精度化しつつ，ドメインGAPが生じないようにしている．&lt;br&gt;
+最後はXi，Xj，Xkに対してEcとEdで抽出した特徴から生成した画像を用いて，劣化の影響を受けにくい特徴抽出器Eidの学習を行う．&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;DFEN.png&#34; alt=&#34;DFEN&#34;&gt;
+Person Re-IDのための特徴抽出器(DFEN)の学習では，DDGANで学習したEcとEidを用いて学習を行う．そのとき，Ecは入力画像の変化に依存しないこと，Eidは入力の劣化具合の変化に応じて感度を変えて特徴抽出することが望ましい．そこで，Eidに対してAttention機構を導入することで調整を可能にしている．&lt;/p&gt;
+&lt;h2 id=&#34;どうやって有効だと検証した&#34;&gt;&lt;strong&gt;どうやって有効だと検証した？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;table1.png&#34; alt=&#34;Table&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;3つのデータ・セットで性能検証しSoTA&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;feature_map.png&#34; alt=&#34;Map&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DDGANのEcとResNetの中間層の特徴マップを比較して，提案手法で抽出した特徴は劣化の影響を受けにくいことを確認&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;res.png&#34; alt=&#34;Resolution&#34;&gt;
+&lt;img src=&#34;ill.png&#34; alt=&#34;Illumination&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;コンテンツ画像から抽出したコンテンツ特徴とリファレンス画像から抽出した劣化特徴を用いて画像生成すると，コンテンツを維持したまま，解像度や照明を変化させた画像を生成でき，Disentangleできていることを確認&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;t-SNE.png&#34; alt=&#34;T-SNE&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;劣化特徴をt-SNEで2次元平面にプロットすると，劣化に関する教師なし学習であるのにも関わらず，照明具合が分離できていることを確認&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;議論はある&#34;&gt;&lt;strong&gt;議論はある？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;論文中には特になし&lt;/p&gt;
+&lt;p&gt;以下が今後の課題と予想&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;複数の劣化成分への対応&lt;/li&gt;
+&lt;li&gt;コンテンツ特徴の高精度化 or 不変的な特徴の選択(骨格や歩行特徴など)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;次に読むべき論文は&#34;&gt;&lt;strong&gt;次に読むべき論文は？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Yu-Jhe Li, Yun-Chun Chen, Yen-Yu Lin, Xiaofei Du, and
+Yu-Chiang Frank Wang. &lt;em&gt;Recover and identify: A generative dual model for cross-resolution person re-identification.&lt;/em&gt;
+In The IEEE International Conference on Computer Vision
+(ICCV), October 2019&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
