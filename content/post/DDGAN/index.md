@@ -29,6 +29,9 @@ categories: ["Person Re-ID"]
 toc: true
 ---
 
+arxivへのリンク  [paper](https://arxiv.org/abs/2004.04933)  
+掲載した画像は全て原著論文からの引用
+
 ## **どんなもの？**
 Person Re-IDのような人物照合タスクは照合データ間で照明，解像度，歩行方向，天候などの変化が生じる場合が多く，これらは認識精度の低下を招く．そこで，そのような変化の影響を受けないような人物特徴(Content特徴)と照合データ間の変動特徴(Degradation特徴)をDisentanglementするようにGANのEncoderを学習する(DDGAN)．次に学習した2つのEncoderとAttention機構を用いて特徴抽出器(DFEN)を学習することで，3つのデータ・セットを用いたCross-resolutionのPerson Re-IDでSoTAを達成．  
 
