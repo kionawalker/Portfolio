@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Archives | Portfolio</title>
-    <link>https://github.com/kionawalker/kionawalker.github.io/portfolio/archives/</link>
-      <atom:link href="https://github.com/kionawalker/kionawalker.github.io/portfolio/archives/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://github.com/kionawalker/kionawalker.github.io/academic-kickstart/archives/</link>
+      <atom:link href="https://github.com/kionawalker/kionawalker.github.io/academic-kickstart/archives/index.xml" rel="self" type="application/rss+xml" />
     <description>Archives</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright>
     <image>
-      <url>https://github.com/kionawalker/kionawalker.github.io/portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://github.com/kionawalker/kionawalker.github.io/academic-kickstart/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Archives</title>
-      <link>https://github.com/kionawalker/kionawalker.github.io/portfolio/archives/</link>
+      <link>https://github.com/kionawalker/kionawalker.github.io/academic-kickstart/archives/</link>
     </image>
     
   </channel>
