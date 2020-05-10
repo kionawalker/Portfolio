@@ -14,7 +14,7 @@ role: Machine Learning Engineer and Reseacher
 
 # Organizations/Affiliations
 organizations:
-- name: 某家電メーカー
+- name: A home appliance manufacturer
   url: ""
 
 # Short bio (displayed in user profile at end of posts)
