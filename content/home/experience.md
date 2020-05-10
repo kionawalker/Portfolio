@@ -19,13 +19,13 @@ date_format = "Jan 2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 [[experience]]
   title = "Researcher"
-  company = "Panasonic"
+  company = "A home appliance manufacturer"
   company_url = ""
   location = "Kanagawa"
   date_start = "2019-04-01"
   date_end = ""
   description = """
-  Connected solutions Company, Innovation Center
+  Research and develop some solutions for any business companies 
   """
 
 # [[experience]]
