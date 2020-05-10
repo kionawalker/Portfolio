@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts | Portfolio</title>
-    <link>https://github.com/kionawalker/kionawalker.github.io/Portfolio/post/</link>
-      <atom:link href="https://github.com/kionawalker/kionawalker.github.io/Portfolio/post/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://github.com/kionawalker.github.io/post/</link>
+      <atom:link href="https://github.com/kionawalker.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright><lastBuildDate>Fri, 08 May 2020 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://github.com/kionawalker/kionawalker.github.io/Portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://github.com/kionawalker.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Posts</title>
-      <link>https://github.com/kionawalker/kionawalker.github.io/Portfolio/post/</link>
+      <link>https://github.com/kionawalker.github.io/post/</link>
     </image>
     
     <item>
       <title>Real-world Person Re-Identification via Degradation Invariance Learning</title>
-      <link>https://github.com/kionawalker/kionawalker.github.io/Portfolio/post/ddgan/</link>
+      <link>https://github.com/kionawalker.github.io/post/ddgan/</link>
       <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
-      <guid>https://github.com/kionawalker/kionawalker.github.io/Portfolio/post/ddgan/</guid>
+      <guid>https://github.com/kionawalker.github.io/post/ddgan/</guid>
       <description>&lt;h2 id=&#34;どんなもの&#34;&gt;&lt;strong&gt;どんなもの？&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;Person Re-IDのような人物照合タスクは照合データ間で照明，解像度，歩行方向，天候などの変化が生じる場合が多く，これらは認識精度の低下を招く．そこで，そのような変化の影響を受けないような人物特徴(Content特徴)と照合データ間の変動特徴(Degradation特徴)をDisentanglementするようにGANのEncoderを学習する(DDGAN)．次に学習した2つのEncoderとAttention機構を用いて特徴抽出器(DFEN)を学習することで，3つのデータ・セットを用いたCross-resolutionのPerson Re-IDでSoTAを達成．&lt;/p&gt;
 &lt;h2 id=&#34;先行研究と比べてどこがすごい&#34;&gt;&lt;strong&gt;先行研究と比べてどこがすごい？&lt;/strong&gt;&lt;/h2&gt;
