@@ -3,7 +3,7 @@
 title: "Real-world Person Re-Identification via Degradation Invariance Learning"
 summary: "Person Re-IDの弊害となる環境変化に対してDisentangle learningを取り入れたGANでEncoderを学習することで対応"
 # 記事の説明
-description : "Accepted CVPR2020"
+description : "Accepted on CVPR2020"
 # 作成日付の設定
 date: "2020-05-08"
 # 更新日

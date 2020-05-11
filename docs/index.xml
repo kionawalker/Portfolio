@@ -77,6 +77,63 @@
     </item>
     
     <item>
+      <title>Supervised Raw Video Denoising with a Benchmark Dataset on Dynamic Scenes</title>
+      <link>https://kionawalker.github.io/Portfolio/post/rvidenet/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      <guid>https://kionawalker.github.io/Portfolio/post/rvidenet/</guid>
+      <description>&lt;p&gt;arxivへのリンク  
+&lt;a href=&#34;https://arxiv.org/abs/2003.14013&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;paper&lt;/a&gt;&lt;br&gt;
+掲載した画像は全て原著論文からの引用&lt;/p&gt;
+&lt;h2 id=&#34;どんなもの&#34;&gt;&lt;strong&gt;どんなもの？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;今まではsRGB画像でノイズ除去が行われていたが，sRGB画像はホワイトバランスやガンマ補正などの非線形変換を行うため，ノイズ分布が複雑になり推定が難しい．近年はデモザイクする前のRAWデータをノイズ除去に用いることが注目され，研究が活発化している．&lt;br&gt;
+RAWデータを用いたデータ・セットはいくつか提案されているが，ノイズ画像とクリーン画像のペア作るには長露出で撮影する必要があり，動体がある状況では撮影が難しい．&lt;br&gt;
+そこでおもちゃを利用し物体の動きを再現した新たなRAWデータ・セットを作成．いくつかの従来手法を取り入れたRViDeNetを構築し，従来のSoTAの手法と独自データ・セットで比較し最も良い精度を達成．&lt;/p&gt;
+&lt;h2 id=&#34;先行研究と比べてどこがすごい&#34;&gt;&lt;strong&gt;先行研究と比べてどこがすごい？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;様々な手法を組み合わせてSoTAの精度を達成していること．&lt;br&gt;
+データ・セットにおもちゃを利用して作成した点はおもしろいが，動画のためのRAWデータの撮影システムは提案されており，やや新規性は弱まる．（論文ではおそらく意図的に参照されていない．)&lt;/p&gt;
+&lt;h2 id=&#34;技術や手法のキモはどこ&#34;&gt;&lt;strong&gt;技術や手法のキモはどこ？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;featured.png&#34; alt=&#34;Overview&#34;&gt;
+U-Netを用いたPre-denoisingの後に隣接フレームを利用した3層のPiramid deformable Conv， non-local attention機構を利用し，pre-denoisingによって平滑化されたエッジの推定を高度化していること&lt;/p&gt;
+&lt;h3 id=&#34;alignment&#34;&gt;Alignment&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;piramid_deformable_conv.png&#34; alt=&#34;アライメント&#34;&gt;
+ノイズ除去を行いたいフレームtの一つ前のフレームt+1の，pre-denoiseデータとnoiseデータを利用してConv層で特徴抽出する．&lt;br&gt;
+その後，畳み込みフィルタの幾何的な制約を緩和するDeformable convを3層のpiramid構造をカスケード接続して適用することで広範囲の受容野をカバーしたピクセルのアライメントを行う．&lt;/p&gt;
+&lt;h3 id=&#34;non-local-attention&#34;&gt;non-local attention&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;non_local_attention.png&#34; alt=&#34;non_local_attention&#34;&gt;
+Spatial，Channel，Temporalの方向に1つのピクセルに対して，全てのピクセルを考慮して重み付けするnon-local attention機構を適応する．これによって，更に広範囲のアライメントが可能になる．&lt;/p&gt;
+&lt;h3 id=&#34;temporal-fusionとspatial-fusion&#34;&gt;Temporal fusionとSpatial fusion&lt;/h3&gt;
+&lt;p&gt;従来手法であるelement-wise temporal fusion strategyで時間方向の統合(出力は1xCxHxH)を行い，10層のResNetにCBAMという特徴表現拡張機構を導入したネットワークで空間方向の統合を行う(出力は4xHxW)．&lt;/p&gt;
+&lt;h2 id=&#34;どうやって有効だと検証した&#34;&gt;&lt;strong&gt;どうやって有効だと検証した？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;table1.png&#34; alt=&#34;Table1&#34;&gt;
+独自データ・セットを用いてSoTAの手法と比較．ViDeNNは学習コードが再現できなかったため，公開された学習済みモデルを直接利用．&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;table2.png&#34; alt=&#34;Table2&#34;&gt;
+各ステージを段階的に加えた場合の性能変化を比較．徐々に性能が向上している．&lt;/p&gt;
+&lt;p&gt;ノイズ除去画像の比較&lt;br&gt;
+比較的エッジが残せている
+&lt;img src=&#34;result1.png&#34; alt=&#34;Result1&#34;&gt;
+&lt;img src=&#34;result2.png&#34; alt=&#34;Result2&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;議論はある&#34;&gt;&lt;strong&gt;議論はある？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;特になし．&lt;br&gt;
+高精度化するために徐々にネットワークの構造が複雑化し，その分計算量も増えるため，処理速度を考慮した高速な手法が今後求められる．&lt;/p&gt;
+&lt;h2 id=&#34;次に読むべき論文は&#34;&gt;&lt;strong&gt;次に読むべき論文は？&lt;/strong&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Matias Tassano, Julie Delon, and Thomas Veit. &lt;em&gt;Fastdvdnet: Towards real-time video denoising without explicit motion estimation.&lt;/em&gt; arXiv preprint arXiv:1907.01361, 2019.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Jifeng Dai, Haozhi Qi, Yuwen Xiong, Yi Li, Guodong Zhang, Han Hu, and Yichen Wei. &lt;em&gt;Deformable convolutional networks.&lt;/em&gt; In Proceedings of the IEEE international conference on computer vision, pages 764–773, 2017.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Jun Fu, Jing Liu, Haijie Tian, Yong Li, Yongjun Bao, Zhiwei Fang, and Hanqing Lu. &lt;em&gt;Dual attention network for scene segmentation.&lt;/em&gt; In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pages 3146–3154, 2019.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Haiyang Jiang and Yinqiang Zheng. &lt;em&gt;Learning to see moving objects in the dark.&lt;/em&gt; In The IEEE International Conference on Computer Vision (ICCV), October 2019.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Real-world Person Re-Identification via Degradation Invariance Learning</title>
       <link>https://kionawalker.github.io/Portfolio/post/ddgan/</link>
       <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>

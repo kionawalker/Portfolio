@@ -29,7 +29,37 @@
   
   <url>
     <loc>https://kionawalker.github.io/Portfolio/categories/</loc>
-    <lastmod>2020-05-08T00:00:00+00:00</lastmod>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kionawalker.github.io/Portfolio/tag/dataset/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kionawalker.github.io/Portfolio/category/denoising/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kionawalker.github.io/Portfolio/post/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kionawalker.github.io/Portfolio/post/rvidenet/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kionawalker.github.io/Portfolio/tags/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kionawalker.github.io/Portfolio/tag/video-denoising/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -48,17 +78,7 @@
   </url>
   
   <url>
-    <loc>https://kionawalker.github.io/Portfolio/post/</loc>
-    <lastmod>2020-05-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://kionawalker.github.io/Portfolio/post/ddgan/</loc>
-    <lastmod>2020-05-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://kionawalker.github.io/Portfolio/tags/</loc>
     <lastmod>2020-05-08T00:00:00+00:00</lastmod>
   </url>
   
