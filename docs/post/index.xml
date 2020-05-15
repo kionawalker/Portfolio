@@ -5,12 +5,65 @@
     <link>https://kionawalker.github.io/Portfolio/post/</link>
       <atom:link href="https://kionawalker.github.io/Portfolio/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright><lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright><lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://kionawalker.github.io/Portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Posts</title>
       <link>https://kionawalker.github.io/Portfolio/post/</link>
     </image>
+    
+    <item>
+      <title>Relation-Aware Global Attention for Person Re-identification</title>
+      <link>https://kionawalker.github.io/Portfolio/post/rga/</link>
+      <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
+      <guid>https://kionawalker.github.io/Portfolio/post/rga/</guid>
+      <description>&lt;p&gt;arxivへのリンク  
+&lt;a href=&#34;https://arxiv.org/abs/1904.02998&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;paper&lt;/a&gt;&lt;br&gt;
+掲載した画像は全て原著論文からの引用&lt;/p&gt;
+&lt;h2 id=&#34;どんなもの&#34;&gt;&lt;strong&gt;どんなもの？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Attention機構は特徴ベクトルの重要度を決めるとき，Targetの特徴のみで重要度を計算するLocal-Attentionと，全ての特徴を用いてTargetの重要度を計算するGlobal-Attention(Non-local Attention)に大別できる．&lt;br&gt;
+前者は受容野に制限があるため特徴マップの大局的な情報(i.e. 腕&amp;quot;全体&amp;rdquo;)を考慮できず，後者は大局的な情報を考慮できるが位置情報が欠落するため，物体構造の関係性(i.e. Tシャツと靴の組み合わせ)を考慮できない.&lt;br&gt;
+そこで，重要度を決めるTargetの特徴ベクトルと，その他の特徴ベクトルの関係性を計算するRelation-aware Global Attention(RGA)を提案．Person Re-IDと相性がよく3つのデータ・セットにおいてSoTA．&lt;/p&gt;
+&lt;h2 id=&#34;先行研究と比べてどこがすごい&#34;&gt;&lt;strong&gt;先行研究と比べてどこがすごい？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;7x7の大きなカーネルを用いるAttention機構であるCBAMでも捉えることができない構造関係(i.e. 右手：ペットボトル，左手：手ぶら)を踏まえて特徴抽出が可能．
+また，Global Attentionは特徴マップ間でAttentionに差が生まれにくいが，RGAの特徴マップは多様になる．&lt;/p&gt;
+&lt;h2 id=&#34;技術や手法のキモはどこ&#34;&gt;&lt;strong&gt;技術や手法のキモはどこ？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;concept.png&#34; alt=&#34;concept&#34;&gt;
+特徴間の関係性を捉えるために，重要度を決めるTargetとなる特徴とその他の特徴のペアを変えてRelation特徴を算出する．その後Targetの特徴とRelation特徴の結合し，Targetの重要度を重み付けする.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RGA.png&#34; alt=&#34;RGA&#34;&gt;
+Spatial AttentionであるRGA-S，Channel AttentionであるRGA-Cを提案．&lt;br&gt;
+RGA-SはCxHxWの特徴マップのうち，チャンネル方向の特徴をひとまとめとして扱い，N=0&amp;hellip;(HxW)までのindexとする．基準となるi番目の要素(1x1xC)とj番目の要素(1x1xC)をそれぞれ，1x1 Conv(θ，Φ)で変換(1x1x{C/r})して内積を計算する．&lt;br&gt;
+この処理を全てのi,jの組み合わせで行いNxNのAffinity matrixをつくる．&lt;br&gt;
+
+&lt;a href=&#34;https://qiita.com/pacifinapacific/items/2e7a03aa84d8a8bfa60d&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;参考：Affinity_matrix&lt;/a&gt;&lt;br&gt;
+生成したAffinity matrixを行，列毎に分解しHxWのRelation特徴とする．&lt;br&gt;
+Relation特徴と変換前の特徴はドメインが異なる情報をもつため，Global Average Poolingと1x1 Convで変換し次元削減する．その後にそれらを結合し，1x1 Conv(W1,W1)によってAttntionを生成する．&lt;br&gt;
+同様にRGA-Cも計算できる．&lt;/p&gt;
+&lt;h2 id=&#34;どうやって有効だと検証した&#34;&gt;&lt;strong&gt;どうやって有効だと検証した？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;table1.png&#34; alt=&#34;Table1&#34;&gt;
+RGA-S，RGA-CをResNet50のResidual Blockの後に挿入し効果を検証．&lt;br&gt;
+RGA-SとRGA-Cのどちらも使う場合は順番に適用(RGA-CS, RGA-SC)，並列に処理(RGA-S//C)を検証．
+　
+&lt;img src=&#34;table2.png&#34; alt=&#34;Table2&#34;&gt;
+Local,Global Attentionと比較．構造の関係を考慮したRGAが凌駕．&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fig4.png&#34; alt=&#34;Fig4&#34;&gt;
+Global Attention(Non-local)はTarget(赤点)の位置が変わっても強く重みづけされる領域が変化しないが，RGA-Sは服，持ち物など関係のある領域に強く重みづけされる．&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;table3.png&#34; alt=&#34;Table3&#34;&gt;
+Local Attentionと比較すると保持するパラメータ数は増えるが，Global Attentionよりは少なくていい．&lt;br&gt;
+Affinity matrixを生成するとき1x1 Convでembeddingする効果があるか検証．&lt;br&gt;
+別々の重みをもつ2つの1x1 Convを利用したほうがよい(Asymmetric)
+(誤解釈があるかもしれない)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;table5.png&#34; alt=&#34;Table5&#34;&gt;
+SoTAと比較．2019年に提案された手法を大きく凌駕．&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fig5.png&#34; alt=&#34;Fig5&#34;&gt;
+Grad-CAMにより認識に寄与した領域を可視化すると，人の直感に沿った領域に強く反応していることがわかる．&lt;/p&gt;
+&lt;h2 id=&#34;議論はある&#34;&gt;&lt;strong&gt;議論はある？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;ResNetの場合，各ブロックにRGA-SCに挿入したほうがよい．&lt;/p&gt;
+&lt;h2 id=&#34;次に読むべき論文は&#34;&gt;&lt;strong&gt;次に読むべき論文は？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Yue Cao, Jiarui Xu, Stephen Lin, Fangyun Wei, and Han
+Hu. Gcnet: &lt;em&gt;Non-local networks meet squeeze-excitation networks and beyond.&lt;/em&gt; arXiv preprint arXiv:1904.11492, 2019.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Supervised Raw Video Denoising with a Benchmark Dataset on Dynamic Scenes</title>
