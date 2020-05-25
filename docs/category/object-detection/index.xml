@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Object detection | Portfolio</title>
+    <link>https://kionawalker.github.io/Portfolio/category/object-detection/</link>
+      <atom:link href="https://kionawalker.github.io/Portfolio/category/object-detection/index.xml" rel="self" type="application/rss+xml" />
+    <description>Object detection</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright><lastBuildDate>Mon, 25 May 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://kionawalker.github.io/Portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Object detection</title>
+      <link>https://kionawalker.github.io/Portfolio/category/object-detection/</link>
+    </image>
+    
+    <item>
+      <title>Large-Scale Object Detection in the Wild from Imbalanced Multi-Labels</title>
+      <link>https://kionawalker.github.io/Portfolio/post/od_iml/</link>
+      <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
+      <guid>https://kionawalker.github.io/Portfolio/post/od_iml/</guid>
+      <description>&lt;p&gt;arxivへのリンク  
+&lt;a href=&#34;https://arxiv.org/abs/2005.08455&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;paper&lt;/a&gt;&lt;br&gt;
+掲載した画像は全て原著論文からの引用&lt;/p&gt;
+&lt;h2 id=&#34;どんなもの&#34;&gt;&lt;strong&gt;どんなもの？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;深層学習はデータセットの規模に大きく影響を受ける．しかしOpen Imagesのような大規模データ・セットはアノテーターの認知能力の差異に基づくアノテーションミス(i.e. おもちゃの車：おもちゃ，車)や，カテゴリー間の極端なデータの不均衡が起こり得る．&lt;br&gt;
+そこで，誤って付与された複数の正解ラベルに対して影響を受けないようにSoftmax関数を修正することでアノテーションミスに対応した．  更に，バランスの調整具合を決める任意パラメータを導入した提案手法のSoft-balance sampling，カテゴリー内のサンプル数によって調整される従来手法のどちらを適用するかを学習時にスケジューリングすることでデータの不均衡に対応．&lt;/p&gt;
+&lt;h2 id=&#34;先行研究と比べてどこがすごい&#34;&gt;&lt;strong&gt;先行研究と比べてどこがすごい？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;従来のOpen Imagesを利用した物体検出の学習では，不正確なラベルが複数つけられていたとしても考慮せず，単一のラベルのみを用いて学習を行っていた．(詳しくは分からない)&lt;br&gt;
+提案手法では複数の正解ラベルを考慮してscoreを計算，損失を求めるため，誤った学習を行うことが抑制される．&lt;br&gt;
+また，データ不均衡に対して，カテゴリー内のサンプル数に応じてサンプリングを変える従来手法は，データセットの大部分が参照されなかったり，一部のデータだけ参照されすぎることが考えられ，学習を非効率的にする可能性があったが，soft-balance samplingとハイブリッドスケジューリングによって影響を緩和できる．&lt;/p&gt;
+&lt;h2 id=&#34;技術や手法のキモはどこ&#34;&gt;&lt;strong&gt;技術や手法のキモはどこ？&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;concurrent-softmax&#34;&gt;Concurrent Softmax&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;fig3.png&#34; alt=&#34;fig3&#34;&gt;
+&lt;img src=&#34;softmax.png&#34; alt=&#34;softmax&#34;&gt;
+(1 - yi)項：正解ラベルが複数あるとき，モデルの出力したクラスの応答と対応したカテゴリーしか考慮しない．&lt;br&gt;
+(i番目の応答ならばj=i以外に正解ラベルがあっても考慮しない．)&lt;/p&gt;
+&lt;p&gt;(1 - rij)項：不正解ラベルは，誤ったラベルである割合を考慮して調整．rijは全ラベルの分布から求める．&lt;/p&gt;
+&lt;h3 id=&#34;soft-balance-sampling-with-hybrid-training&#34;&gt;Soft-balance Sampling with Hybrid Training&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;soft.png&#34; alt=&#34;sampling&#34;&gt;
+サンプリング方法として&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学習するカテゴリーの総画像枚数/ 総画像枚数 = 1 / P&lt;/li&gt;
+&lt;li&gt;1 / 全てのカテゴリー数 = 1/ C&lt;br&gt;
+の２つが考えられる．&lt;br&gt;
+これをパラメータλで操作できるようにしたものがSoft-balance sampling
+学習では各epock毎にλを設定することで頻出しないカテゴリーの学習を進めたり，反対に極端に過学習しないように
+調整する．&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;どうやって有効だと検証した&#34;&gt;&lt;strong&gt;どうやって有効だと検証した？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;各手法について，個別に検証．
+&lt;img src=&#34;table3.png&#34; alt=&#34;table3&#34;&gt;
+&lt;img src=&#34;fig4.png&#34; alt=&#34;fig4&#34;&gt;
+&lt;img src=&#34;table4.png&#34; alt=&#34;table4&#34;&gt;
+&lt;img src=&#34;table5.png&#34; alt=&#34;table5&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;議論はある&#34;&gt;&lt;strong&gt;議論はある？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;特になし
+CVPR2020 Oralだけあって，とてもシンプルながら実応用に向いている．&lt;br&gt;
+複数ラベルが混在してしまうのが，Open Imagesの特性なのか，一般的にそうなる傾向があるのか把握できていない．&lt;/p&gt;
+&lt;h2 id=&#34;次に読むべき論文は&#34;&gt;&lt;strong&gt;次に読むべき論文は？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;物体検出の基礎のFast R-CNNからさらっていく&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
