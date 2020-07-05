@@ -1,0 +1,1068 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Naoki Setoguchi">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="新たなデータ・セットの学習なし，精度における入力データの解像度の依存なしでセグメンテーション結果をRefineできるCascadePSPを提案">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://kionawalker.github.io/Portfolio/post/cascadepsp/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="rgb(0, 136, 204)">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin="anonymous" title="hl-light" disabled>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark">
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/Portfolio/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/Portfolio/index.webmanifest">
+  <link rel="icon" type="image/png" href="/Portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/Portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="https://kionawalker.github.io/Portfolio/post/cascadepsp/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Portfolio">
+  <meta property="og:url" content="https://kionawalker.github.io/Portfolio/post/cascadepsp/">
+  <meta property="og:title" content="CascadePSP: Toward Class-Agnostic and Very High-Resolution Segmentation via Global and Local Refinement | Portfolio">
+  <meta property="og:description" content="新たなデータ・セットの学習なし，精度における入力データの解像度の依存なしでセグメンテーション結果をRefineできるCascadePSPを提案"><meta property="og:image" content="https://kionawalker.github.io/Portfolio/post/cascadepsp/featured.png">
+  <meta property="twitter:image" content="https://kionawalker.github.io/Portfolio/post/cascadepsp/featured.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2020-07-05T22:34:03&#43;09:00">
+    
+    <meta property="article:modified_time" content="2020-07-05T22:34:03&#43;09:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://kionawalker.github.io/Portfolio/post/cascadepsp/"
+  },
+  "headline": "CascadePSP: Toward Class-Agnostic and Very High-Resolution Segmentation via Global and Local Refinement",
+  
+  "image": [
+    "https://kionawalker.github.io/Portfolio/post/cascadepsp/featured.png"
+  ],
+  
+  "datePublished": "2020-07-05T22:34:03+09:00",
+  "dateModified": "2020-07-05T22:34:03+09:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Naoki Setoguchi"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Portfolio",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://kionawalker.github.io/Portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
+    }
+  },
+  "description": "新たなデータ・セットの学習なし，精度における入力データの解像度の依存なしでセグメンテーション結果をRefineできるCascadePSPを提案"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>CascadePSP: Toward Class-Agnostic and Very High-Resolution Segmentation via Global and Local Refinement | Portfolio</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="dark">
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/Portfolio/">Portfolio</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/Portfolio/">Portfolio</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/Portfolio/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/Portfolio/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link js-theme-selector" data-toggle="dropdown" aria-haspopup="true">
+          <i class="fas fa-palette" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<div class="article-container pt-3">
+  <h1>CascadePSP: Toward Class-Agnostic and Very High-Resolution Segmentation via Global and Local Refinement</h1>
+
+  
+
+  
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jul 5, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    4 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/Portfolio/category/segmentation/">Segmentation</a></span>
+  
+
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 503px; max-height: 388px;">
+  <div style="position: relative">
+    <img src="/Portfolio/post/cascadepsp/featured.png" alt="" class="featured-image">
+    
+  </div>
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>arxivへのリンク  
+<a href="https://arxiv.org/abs/2005.02551" target="_blank" rel="noopener">paper</a><br>
+掲載した画像は全て原著論文からの引用</p>
+<h2 id="どんなもの"><strong>どんなもの？</strong></h2>
+<p>セグメンテーションのための深層学習手法は学習した解像度と異なる入力に対して適用したとき分割精度が低下する．<br>
+また，4Kを超えるような高解像度画像に対してセグメンテーションを行いたい場合，既存手法はGPUのメモリ量に限界があるため適用できないことがある．<br>
+そこで，入力画像と3つの粗いセグメンテーション画像を用いて，新たにデータセットを学習させる必要なく，セグメンテーションのRefineを行うCascadePSPを提案．<br>
+1枚画像を入力するGlobal Stepで，オブジェクトの構造をとらえ，切り抜き画像を入力とするLocal Stepで細部を処理することで，解像度の依存なくセグメンテーション結果のRefinementが可能．</p>
+<h2 id="先行研究と比べてどこがすごい"><strong>先行研究と比べてどこがすごい？</strong></h2>
+<p>データセット，画像解像度に依存することなく，セグメンテーション結果のRefinementができること．Global StepとLocal Stepの合わせ技でGPUメモリの制限に対処できることも魅力．評価のために4K解像度のデータセットも新たに用意し，セグメンテーション結果の構造的な正確性を評価可能なmean Boundary Accuracy measure(mBA)も導入．</p>
+<h2 id="技術や手法のキモはどこ"><strong>技術や手法のキモはどこ？</strong></h2>
+<h3 id="refinement-modulerm">Refinement Module(RM)</h3>
+<p><img src="rm.png" alt="RM">
+入力画像，既存のセグメンテーション手法で事前に得た解像度の異なる3つの粗いセグメンテーション結果を入力してResidual Blockで特徴抽出，その後，カーネルサイズが[1,2,4,6]のPiramid poolingでマルチスケールの特徴を捉える．この時，[1,2,4,8]のストライドで出力を得る．これらに対してUpsamplingで入力に用いたセグメンテーション結果と解像度を揃えてからConcatし，2層の1x1 ConvでRefineする．</p>
+<h3 id="loss">Loss</h3>
+<p>各スケールのRifine結果に対して異なる損失を定義する</p>
+<ul>
+<li>OS8<br>
+　物体全体の構造を捉えることが重要であるためCross Entropyを用いる</li>
+<li>OS1<br>
+物体の細部を正確に捉えることが重要であるため，L1+L2 Lossを用いる</li>
+<li>OS4<br>
+中間的な情報であるため，Cross Entropy + L1+L2</li>
+</ul>
+<p>加えてエッジの正確さを保つため，Sobelフィルタで輝度勾配を計算したgradient lossを導入する</p>
+<h3 id="global-step">Global Step</h3>
+<p><img src="gs.png" alt="GS"><br>
+画像全体をRMに入力して全体の構造情報を考慮してRefineする．これをPiramid moduleの出力に対応してカスケード式に繰り返す．このとき元画像が4Kなどの高解像度画像だった場合，使用するGPUに応じて入力画像をダウンサンプリングする．</p>
+<h3 id="local-step">Local Step</h3>
+<p><img src="ls.png" alt="LS"><br>
+画像をクロップしてそれをRMに入力し，細部をRefineする．
+このとき，画像境界のアーティファクトを避けるためにクロップの両端16pixを削ったり，ほとんどの画素が4つのクロップをカバーするようにストライドを決める．(意味が理解できていない)</p>
+<h2 id="どうやって有効だと検証した"><strong>どうやって有効だと検証した？</strong></h2>
+<h3 id="cascade構造とloss設計の有効性">Cascade構造とLoss設計の有効性</h3>
+<p><img src="table1.png" alt="table1">
+<img src="fig3.png" alt="fig3"><br>
+複数の出力を利用したCascade構造，Lossの組み合わせによる効果を示している．<br>
+ザリガニの例では1階の単一処理よりも3階のCascade処理のほうが，精細にRefineできていることがわかる．</p>
+<h3 id="global-stepとlocal-stepの有効性">Global StepとLocal Stepの有効性</h3>
+<p><img src="table2.png" alt="table2"><br>
+両者ともにRefinementの効果はある．Local stepのみを適用した場合にGlobal Stepもよりも精度が悪いのは，物体の構造のRefineができていないため．(粗いRefine ⇒ 細かいRefineが効果的)</p>
+<h3 id="３つのデータセットで効果検証">３つのデータセットで効果検証</h3>
+<ul>
+<li>セグメンテーション<br>
+<img src="fig10.png" alt="fig10"><br>
+<strong>PASCAL VOC 2012とBIG(Original)</strong><br>
+BIGは4K解像度を含む高解像度画像のアノテーションが施された筆者独自のデータセット．解像度は2048×1600 ~ 5000×3600.
+入力解像度の依存なくRefineできている．</li>
+</ul>
+<p><img src="fig11.png" alt="fig11"><br>
+しかし，失敗するケースもあり．</p>
+<ul>
+<li>Scene parsing<br>
+<img src="fig12.png" alt="fig12"><br>
+<img src="fig13.png" alt="fig13"><br>
+&ldquo;物体らしさ&quot;の情報のみでRefineできるので，シーン解析(Semantic Segmentation）の高精度化にも拡張できる．<br>
+画像全体に対してSemantic segmentationを行い，物体毎にCascadePSPを適用し，それらの結果をフュージョンする．(Divide-and-conquer strategy)</li>
+</ul>
+<h2 id="議論はある"><strong>議論はある？</strong></h2>
+<p>入力さらたセグメンテーション画像を元にRifineするため，セグメンテーションが大きく失敗しているようなものではうまくいかない．<br>
+しかし，実用的でSelf-supervisedなどのRefinement moduleとして活用することが見込める．</p>
+<h2 id="次に読むべき論文は"><strong>次に読むべき論文は？</strong></h2>
+<p>Chi Zhang, Guosheng Lin, Fayao Liu, Rui Yao, and Chunhua
+Shen. Canet: Class-agnostic segmentation networks with iterative refinement and attentive few-shot learning. In CVPR, 2019. 2</p>
+<p>Chao Peng, Xiangyu Zhang, Gang Yu, Guiming Luo, and
+Jian Sun. Large kernel matters–improve semantic segmentation by global convolutional network. In CVPR, 2017.</p>
+<p>Ning Xu, Brian Price, Scott Cohen, Jimei Yang, and Thomas
+Huang. Deep grabcut for object selection. In BMVC, 2017.</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/Portfolio/tag/cvpr2020/">CVPR2020</a>
+  
+  <a class="badge badge-light" href="/Portfolio/tag/refinement/">Refinement</a>
+  
+  <a class="badge badge-light" href="/Portfolio/tag/segmentation/">Segmentation</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://kionawalker.github.io/Portfolio/post/cascadepsp/&amp;text=CascadePSP:%20Toward%20Class-Agnostic%20and%20Very%20High-Resolution%20Segmentation%20via%20Global%20and%20Local%20Refinement" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://kionawalker.github.io/Portfolio/post/cascadepsp/&amp;t=CascadePSP:%20Toward%20Class-Agnostic%20and%20Very%20High-Resolution%20Segmentation%20via%20Global%20and%20Local%20Refinement" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=CascadePSP:%20Toward%20Class-Agnostic%20and%20Very%20High-Resolution%20Segmentation%20via%20Global%20and%20Local%20Refinement&amp;body=https://kionawalker.github.io/Portfolio/post/cascadepsp/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://kionawalker.github.io/Portfolio/post/cascadepsp/&amp;title=CascadePSP:%20Toward%20Class-Agnostic%20and%20Very%20High-Resolution%20Segmentation%20via%20Global%20and%20Local%20Refinement" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=CascadePSP:%20Toward%20Class-Agnostic%20and%20Very%20High-Resolution%20Segmentation%20via%20Global%20and%20Local%20Refinement%20https://kionawalker.github.io/Portfolio/post/cascadepsp/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://kionawalker.github.io/Portfolio/post/cascadepsp/&amp;title=CascadePSP:%20Toward%20Class-Agnostic%20and%20Very%20High-Resolution%20Segmentation%20via%20Global%20and%20Local%20Refinement" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+      
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+        
+        <img class="avatar mr-3 avatar-circle" src="/Portfolio/author/naoki-setoguchi/avatar_huae7ac541adbb9a4a56c523883b9f3523_81804_270x270_fill_q90_lanczos_center.jpg" alt="Naoki Setoguchi">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="https://kionawalker.github.io/Portfolio">Naoki Setoguchi</a></h5>
+        <h6 class="card-subtitle">Machine Learning Engineer and Reseacher</h6>
+        <p class="card-text">My research interests include Computer vision, macine learning.</p>
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/naoki-setoguchi-9278b2187/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/setoro8986" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/kionawalker" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://note.com/kionawalker" target="_blank" rel="noopener">
+        <i class="fas fa-book-open"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/Portfolio/post/od_iml/">Large-Scale Object Detection in the Wild from Imbalanced Multi-Labels</a></li>
+      
+      <li><a href="/Portfolio/post/rga/">Relation-Aware Global Attention for Person Re-identification</a></li>
+      
+      <li><a href="/Portfolio/post/ddgan/">Real-world Person Re-Identification via Degradation Invariance Learning</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/Portfolio/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/Portfolio/js/academic.min.37431be2d92d7fb0160054761ab79602.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    <a href="mailto:setoro.naoki@gmail.com">setoro.naoki@gmail.com</a> &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

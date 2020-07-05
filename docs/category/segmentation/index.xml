@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Segmentation | Portfolio</title>
+    <link>https://kionawalker.github.io/Portfolio/category/segmentation/</link>
+      <atom:link href="https://kionawalker.github.io/Portfolio/category/segmentation/index.xml" rel="self" type="application/rss+xml" />
+    <description>Segmentation</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright><lastBuildDate>Sun, 05 Jul 2020 22:34:03 +0900</lastBuildDate>
+    <image>
+      <url>https://kionawalker.github.io/Portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Segmentation</title>
+      <link>https://kionawalker.github.io/Portfolio/category/segmentation/</link>
+    </image>
+    
+    <item>
+      <title>CascadePSP: Toward Class-Agnostic and Very High-Resolution Segmentation via Global and Local Refinement</title>
+      <link>https://kionawalker.github.io/Portfolio/post/cascadepsp/</link>
+      <pubDate>Sun, 05 Jul 2020 22:34:03 +0900</pubDate>
+      <guid>https://kionawalker.github.io/Portfolio/post/cascadepsp/</guid>
+      <description>&lt;p&gt;arxivへのリンク  
+&lt;a href=&#34;https://arxiv.org/abs/2005.02551&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;paper&lt;/a&gt;&lt;br&gt;
+掲載した画像は全て原著論文からの引用&lt;/p&gt;
+&lt;h2 id=&#34;どんなもの&#34;&gt;&lt;strong&gt;どんなもの？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;セグメンテーションのための深層学習手法は学習した解像度と異なる入力に対して適用したとき分割精度が低下する．&lt;br&gt;
+また，4Kを超えるような高解像度画像に対してセグメンテーションを行いたい場合，既存手法はGPUのメモリ量に限界があるため適用できないことがある．&lt;br&gt;
+そこで，入力画像と3つの粗いセグメンテーション画像を用いて，新たにデータセットを学習させる必要なく，セグメンテーションのRefineを行うCascadePSPを提案．&lt;br&gt;
+1枚画像を入力するGlobal Stepで，オブジェクトの構造をとらえ，切り抜き画像を入力とするLocal Stepで細部を処理することで，解像度の依存なくセグメンテーション結果のRefinementが可能．&lt;/p&gt;
+&lt;h2 id=&#34;先行研究と比べてどこがすごい&#34;&gt;&lt;strong&gt;先行研究と比べてどこがすごい？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;データセット，画像解像度に依存することなく，セグメンテーション結果のRefinementができること．Global StepとLocal Stepの合わせ技でGPUメモリの制限に対処できることも魅力．評価のために4K解像度のデータセットも新たに用意し，セグメンテーション結果の構造的な正確性を評価可能なmean Boundary Accuracy measure(mBA)も導入．&lt;/p&gt;
+&lt;h2 id=&#34;技術や手法のキモはどこ&#34;&gt;&lt;strong&gt;技術や手法のキモはどこ？&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;refinement-modulerm&#34;&gt;Refinement Module(RM)&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;rm.png&#34; alt=&#34;RM&#34;&gt;
+入力画像，既存のセグメンテーション手法で事前に得た解像度の異なる3つの粗いセグメンテーション結果を入力してResidual Blockで特徴抽出，その後，カーネルサイズが[1,2,4,6]のPiramid poolingでマルチスケールの特徴を捉える．この時，[1,2,4,8]のストライドで出力を得る．これらに対してUpsamplingで入力に用いたセグメンテーション結果と解像度を揃えてからConcatし，2層の1x1 ConvでRefineする．&lt;/p&gt;
+&lt;h3 id=&#34;loss&#34;&gt;Loss&lt;/h3&gt;
+&lt;p&gt;各スケールのRifine結果に対して異なる損失を定義する&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OS8&lt;br&gt;
+　物体全体の構造を捉えることが重要であるためCross Entropyを用いる&lt;/li&gt;
+&lt;li&gt;OS1&lt;br&gt;
+物体の細部を正確に捉えることが重要であるため，L1+L2 Lossを用いる&lt;/li&gt;
+&lt;li&gt;OS4&lt;br&gt;
+中間的な情報であるため，Cross Entropy + L1+L2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;加えてエッジの正確さを保つため，Sobelフィルタで輝度勾配を計算したgradient lossを導入する&lt;/p&gt;
+&lt;h3 id=&#34;global-step&#34;&gt;Global Step&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;gs.png&#34; alt=&#34;GS&#34;&gt;&lt;br&gt;
+画像全体をRMに入力して全体の構造情報を考慮してRefineする．これをPiramid moduleの出力に対応してカスケード式に繰り返す．このとき元画像が4Kなどの高解像度画像だった場合，使用するGPUに応じて入力画像をダウンサンプリングする．&lt;/p&gt;
+&lt;h3 id=&#34;local-step&#34;&gt;Local Step&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;ls.png&#34; alt=&#34;LS&#34;&gt;&lt;br&gt;
+画像をクロップしてそれをRMに入力し，細部をRefineする．
+このとき，画像境界のアーティファクトを避けるためにクロップの両端16pixを削ったり，ほとんどの画素が4つのクロップをカバーするようにストライドを決める．(意味が理解できていない)&lt;/p&gt;
+&lt;h2 id=&#34;どうやって有効だと検証した&#34;&gt;&lt;strong&gt;どうやって有効だと検証した？&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;cascade構造とloss設計の有効性&#34;&gt;Cascade構造とLoss設計の有効性&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;table1.png&#34; alt=&#34;table1&#34;&gt;
+&lt;img src=&#34;fig3.png&#34; alt=&#34;fig3&#34;&gt;&lt;br&gt;
+複数の出力を利用したCascade構造，Lossの組み合わせによる効果を示している．&lt;br&gt;
+ザリガニの例では1階の単一処理よりも3階のCascade処理のほうが，精細にRefineできていることがわかる．&lt;/p&gt;
+&lt;h3 id=&#34;global-stepとlocal-stepの有効性&#34;&gt;Global StepとLocal Stepの有効性&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;table2.png&#34; alt=&#34;table2&#34;&gt;&lt;br&gt;
+両者ともにRefinementの効果はある．Local stepのみを適用した場合にGlobal Stepもよりも精度が悪いのは，物体の構造のRefineができていないため．(粗いRefine ⇒ 細かいRefineが効果的)&lt;/p&gt;
+&lt;h3 id=&#34;３つのデータセットで効果検証&#34;&gt;３つのデータセットで効果検証&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;セグメンテーション&lt;br&gt;
+&lt;img src=&#34;fig10.png&#34; alt=&#34;fig10&#34;&gt;&lt;br&gt;
+&lt;strong&gt;PASCAL VOC 2012とBIG(Original)&lt;/strong&gt;&lt;br&gt;
+BIGは4K解像度を含む高解像度画像のアノテーションが施された筆者独自のデータセット．解像度は2048×1600 ~ 5000×3600.
+入力解像度の依存なくRefineできている．&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;fig11.png&#34; alt=&#34;fig11&#34;&gt;&lt;br&gt;
+しかし，失敗するケースもあり．&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Scene parsing&lt;br&gt;
+&lt;img src=&#34;fig12.png&#34; alt=&#34;fig12&#34;&gt;&lt;br&gt;
+&lt;img src=&#34;fig13.png&#34; alt=&#34;fig13&#34;&gt;&lt;br&gt;
+&amp;ldquo;物体らしさ&amp;quot;の情報のみでRefineできるので，シーン解析(Semantic Segmentation）の高精度化にも拡張できる．&lt;br&gt;
+画像全体に対してSemantic segmentationを行い，物体毎にCascadePSPを適用し，それらの結果をフュージョンする．(Divide-and-conquer strategy)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;議論はある&#34;&gt;&lt;strong&gt;議論はある？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;入力さらたセグメンテーション画像を元にRifineするため，セグメンテーションが大きく失敗しているようなものではうまくいかない．&lt;br&gt;
+しかし，実用的でSelf-supervisedなどのRefinement moduleとして活用することが見込める．&lt;/p&gt;
+&lt;h2 id=&#34;次に読むべき論文は&#34;&gt;&lt;strong&gt;次に読むべき論文は？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Chi Zhang, Guosheng Lin, Fayao Liu, Rui Yao, and Chunhua
+Shen. Canet: Class-agnostic segmentation networks with iterative refinement and attentive few-shot learning. In CVPR, 2019. 2&lt;/p&gt;
+&lt;p&gt;Chao Peng, Xiangyu Zhang, Gang Yu, Guiming Luo, and
+Jian Sun. Large kernel matters–improve semantic segmentation by global convolutional network. In CVPR, 2017.&lt;/p&gt;
+&lt;p&gt;Ning Xu, Brian Price, Scott Cohen, Jimei Yang, and Thomas
+Huang. Deep grabcut for object selection. In BMVC, 2017.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
