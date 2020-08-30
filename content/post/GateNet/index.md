@@ -25,7 +25,7 @@ DUTSなど主要な5つのデータセットでSoTA．
 
 
 ## **先行研究と比べてどこがすごい？**
-従来のU型ネットワークのSkip-connectionは，冗長な情報をDecoderに出力することを指摘し，選択的に処理するGateを導入したこと．また，Gateの情報をうまく利用してRefineするDual branch構造を提案したこと．
+従来のU型ネットワークのSkip-connectionは，冗長な情報をDecoderに出力することを指摘し，選択的に処理するGateを導入したこと．また，Gateの情報をうまく利用してRefineするDual branch構造を提案したこと．また受容野を大きくとると特徴抽出が安定しないASPPの問題を軽減したFold-ASPPを提案したこと．
 
 ## **技術や手法のキモはどこ？**
 
@@ -33,7 +33,7 @@ DUTSなど主要な5つのデータセットでSoTA．
 ![Fig2](./Fig.2.png)  
 ![Fig3](./Fig.3.png) 
 図2のまんま．  
-各Encoderの出力とDecoderの出力をチャンネル方向にConcatする．その特徴からConvolutionとSigmoidでAttention mapを生成し，Encoderの出力を変換するTransition layerの出力と要素毎の積をとることでEncoderの出力のうち重要なものを選択する．得られた特徴はDecoderの出力に足されるFPN branchと推論のRefineを行うparallel branchに分かれる．
+各Encoderの出力とDecoderの出力をチャンネル方向にConcatする．その特徴からConvolutionとSigmoidでAttention mapを生成し，Encoderの出力を変換するTransition layerの出力と要素毎の積をとることでEncoderの出力のうち重要なものを選択する．得られた特徴はDecoderの出力に足されるFPN branchと推論のRefineを行うParallel branchに分かれる．
 
 ## Gated dual branch
  ![Fig5](./Fig.5.png) 
@@ -43,7 +43,7 @@ DUTSなど主要な5つのデータセットでSoTA．
 - Parallel branch  
 物体の構造的特徴を得ることで，領域分割精度を高精度化する役割をもつ．各Gateからの出力はUpsamplingしてからFPN branchの出力とconcatする．その後，その特徴をConvolutionで処理した後，FPN branchと足し合わせてRefineする．
 
-図４は各データセットで，各Gateの重みの平均をとったものであるが，FPN branchではより高次元な特徴に，Parallel branchではより低次元な特徴に大きな重みが与えられていることが分かる．
+図４は各データセットで，各Gateの重みの平均をとったものであるが，FPN branchではより高次な特徴に，Parallel branchではより低次な特徴に大きな重みが与えられていることが分かる．
 
 
 ## Fold-ASPP
