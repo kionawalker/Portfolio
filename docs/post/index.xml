@@ -5,12 +5,68 @@
     <link>https://kionawalker.github.io/Portfolio/post/</link>
       <atom:link href="https://kionawalker.github.io/Portfolio/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright><lastBuildDate>Sun, 05 Jul 2020 22:34:03 +0900</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>setoro.naoki@gmail.com</copyright><lastBuildDate>Sun, 30 Aug 2020 21:56:32 +0900</lastBuildDate>
     <image>
       <url>https://kionawalker.github.io/Portfolio/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Posts</title>
       <link>https://kionawalker.github.io/Portfolio/post/</link>
     </image>
+    
+    <item>
+      <title>Suppress and Balance: A Simple Gated Network for Salient Object Detection</title>
+      <link>https://kionawalker.github.io/Portfolio/post/gatenet/</link>
+      <pubDate>Sun, 30 Aug 2020 21:56:32 +0900</pubDate>
+      <guid>https://kionawalker.github.io/Portfolio/post/gatenet/</guid>
+      <description>&lt;p&gt;arxivへのリンク  
+&lt;a href=&#34;https://arxiv.org/abs/2007.08074&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;paper&lt;/a&gt;&lt;br&gt;
+掲載した画像は全て原著論文からの引用&lt;/p&gt;
+&lt;h2 id=&#34;どんなもの&#34;&gt;&lt;strong&gt;どんなもの？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;画像内の注目物体領域推定(SOD：Salient object detection)では，Saliency mapの推定にU-Net，Hourglass Net，FPNなどのU型ネットワークがよく用いられる．それらはEncoderとDecoderをSkip-connectionで接続するが，Encoderからの出力には冗長な情報も含まれるため学習や推論を阻害することが考えられる．例えば，SODの場合，背景と正解領域が似た場合に領域分割精度が低下する傾向にある．&lt;br&gt;
+そこで，バイパス部分にEncoderの出力とDecoderの出力から決定されるGateを導入したGateNetを提案．またマルチスケールの特徴を得るASPPを改良したFold-ASPPを提案．&lt;br&gt;
+DUTSなど主要な5つのデータセットでSoTA．&lt;/p&gt;
+&lt;h2 id=&#34;先行研究と比べてどこがすごい&#34;&gt;&lt;strong&gt;先行研究と比べてどこがすごい？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;従来のU型ネットワークのSkip-connectionは，冗長な情報をDecoderに出力することを指摘し，選択的に処理するGateを導入したこと．また，Gateの情報をうまく利用してRefineするDual branch構造を提案したこと．&lt;/p&gt;
+&lt;h2 id=&#34;技術や手法のキモはどこ&#34;&gt;&lt;strong&gt;技術や手法のキモはどこ？&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;gatenet&#34;&gt;GateNet&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;./Fig.2.png&#34; alt=&#34;Fig2&#34;&gt;&lt;br&gt;
+&lt;img src=&#34;./Fig.3.png&#34; alt=&#34;Fig3&#34;&gt;
+図2のまんま．&lt;br&gt;
+各Encoderの出力とDecoderの出力をチャンネル方向にConcatする．その特徴からConvolutionとSigmoidでAttention mapを生成し，Encoderの出力を変換するTransition layerの出力と要素毎の積をとることでEncoderの出力のうち重要なものを選択する．得られた特徴はDecoderの出力に足されるFPN branchと推論のRefineを行うparallel branchに分かれる．&lt;/p&gt;
+&lt;h2 id=&#34;gated-dual-branch&#34;&gt;Gated dual branch&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;./Fig.5.png&#34; alt=&#34;Fig5&#34;&gt;
+&lt;img src=&#34;./Fig.4.png&#34; alt=&#34;Fig4&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FPN branch&lt;br&gt;
+画像のコンテキスト特徴を主に処理することで，注目物体が画像中のどの物体か推定する役割をもつ．&lt;/li&gt;
+&lt;li&gt;Parallel branch&lt;br&gt;
+物体の構造的特徴を得ることで，領域分割精度を高精度化する役割をもつ．各Gateからの出力はUpsamplingしてからFPN branchの出力とconcatする．その後，その特徴をConvolutionで処理した後，FPN branchと足し合わせてRefineする．&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;図４は各データセットで，各Gateの重みの平均をとったものであるが，FPN branchではより高次元な特徴に，Parallel branchではより低次元な特徴に大きな重みが与えられていることが分かる．&lt;/p&gt;
+&lt;h2 id=&#34;fold-aspp&#34;&gt;Fold-ASPP&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;./Fig.6.png&#34; alt=&#34;Fig6&#34;&gt;
+マルチスケールのDilated Convolutionによって広範囲の特徴抽出を行うASPPはDilation lateが大きくなると，特徴抽出するサンプルが異なりすぎてしまい，特徴抽出が安定しない．&lt;br&gt;
+そこで，空間方向の2x2のパッチをチャンネル方向に並び変えて(=&amp;quot;Fold&amp;quot;と呼ぶ)からDilatated Convolutionすることで，実質2x2の範囲をサンプリングすることとなり安定して特徴抽出できる．&lt;/p&gt;
+&lt;h2 id=&#34;どうやって有効だと検証した&#34;&gt;&lt;strong&gt;どうやって有効だと検証した？&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;推定精度&#34;&gt;推定精度&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;./table1.png&#34; alt=&#34;table1&#34;&gt;
+&lt;img src=&#34;./Fig.7.png&#34; alt=&#34;Fig7&#34;&gt;
+&lt;img src=&#34;./Fig.8.png&#34; alt=&#34;Fig8&#34;&gt;
+DUTSをはじめとする主要データセットで5つで検証．
+ほぼSoTAを総なめ．推論結果をみても背景が似通ったような画像で領域分割精度が向上していることが分かる．&lt;/p&gt;
+&lt;h3 id=&#34;gateの導入効果&#34;&gt;Gateの導入効果&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;./Fig.9.png&#34; alt=&#34;Fig9&#34;&gt;
+Gateなし/Gateありの各Decoderの出力を可視化したとき，Gateありの場合の方がより正解に近い領域を出力できている．&lt;/p&gt;
+&lt;h3 id=&#34;fold-asppの導入効果&#34;&gt;Fold ASPPの導入効果&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;./table2-3.png&#34; alt=&#34;table2&#34;&gt;
+Dilated Convolution，ASPPにおいて，Fold-ASPPで提案した&amp;quot;Fold&amp;quot;処理を行う効果を検証．全てにおいてFold-ASPPが有効に働いている．&lt;/p&gt;
+&lt;h3 id=&#34;各モジュールの導入効果&#34;&gt;各モジュールの導入効果&lt;/h3&gt;
+&lt;p&gt;Gate，Fold-ASPP，Parallel-branchを順に加えることで，徐々に精度が高まることを確認．GateとFold-ASPPの寄与が大きい．&lt;/p&gt;
+&lt;h2 id=&#34;議論はある&#34;&gt;&lt;strong&gt;議論はある？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Gateを導入したU型ネットワークはDenseな推定を必要とするタスクに適している．&lt;/p&gt;
+&lt;h1 id=&#34;次に読むべき論文は&#34;&gt;次に読むべき論文は？&lt;/h1&gt;
+&lt;p&gt;Pang, Y., Zhao, X., Zhang, L., Lu, H.: Multi-scale interactive network for salient object detection. In: Proceedings of IEEE Conference on Computer Vision and Pattern Recognition. pp. 9413–9422 (2020)&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>CascadePSP: Toward Class-Agnostic and Very High-Resolution Segmentation via Global and Local Refinement</title>
